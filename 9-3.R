@@ -38,3 +38,24 @@ ggplot(duke_forest, aes(x = area, y = price, color = decade_built_cat)) +
 ggplot(duke_forest, aes(x = area, y = price)) +
   geom_point(aes(color = decade_built_cat), alpha = 0.7) +
   geom_smooth(method = "lm", se = FALSE, size = 0.5)
+
+duke_forest <- duke_forest %>%
+  mutate(
+    parking = case_when(
+      parking == "0 spaces" ~ "Street",
+      str_detect(parking, "Carport") ~ "Carport",
+      str_detect(parking, "Garage") ~ "Garage",
+      str_detect(parking, "Covered") ~ "Covered",
+      TRUE ~ parking
+    )
+  )
+duke_forest %>% 
+  count(parking)
+
+ggplot(duke_forest, aes(x = parking, y = price)) + 
+  geom_point(alpha = 0.5) +
+  scale_x_continuous()
+
+ggplot(duke_forest, aes(x = parking, y = price)) + 
+  geom_point(alpha = 0.5) +
+  scale_y_discrete()
