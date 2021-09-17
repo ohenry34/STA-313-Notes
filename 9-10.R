@@ -40,4 +40,6 @@ ggplot(daily_avg, aes(date, mean_daily_rate)) +
                                              color = "white"),
         legend.title = element_blank())
 
-
+hotels %>%
+  select(adults, children, babies) %>%
+  mutate(total = (adults + children + babies))
